@@ -1281,28 +1281,49 @@ $(document).ready(function () {
     /*==============================================================*/
 
     /*==============================================================*/
-    //FORM TO EMAIL - START CODE
+    //FORM TO EMAIL - START CODE $(form).attr('action')
     /*==============================================================*/
     $("#success").hide();
-
-    $("#contact-us-button").click(function () {
+    
+    $("#contact-us-button").click(function (e) {
+        e.preventDefault();
         var error = validationContactUsForm();
         if (error) {
             $.ajax({
                 type: "POST",
-                url: "contact.php",
+                url: $("#contactusform").attr('action'),
                 data: $("#contactusform").serialize(),
                 success: function (result) {
                     $('input[type=text],textarea').each(function () {
                         $(this).val('');
                     })
-                    $("#success").html(result);
+//                    $("#success").html(result);
                     $("#success").fadeIn("slow");
                     $('#success').delay(4000).fadeOut("slow");
                 }
             });
         }
     });
+
+//    $("#contactusform").submit(function (e) {
+//        e.preventDefault();
+//        var formData = $(this).serialize();
+//        
+//        var error = validationContactUsForm();
+//        if (error) {
+//            $.ajax({
+//                type: "POST",
+//                url: "contact.php",
+//                dataType: "json",
+//                data: formData
+//            }).done(function (data) {
+//                console.log(data);
+//                alert("It's OK!");
+//            }).fail(function (data) {
+//                console.log(data);
+//            });
+//        }
+//    });
     function validationContactUsForm() {
         var error = true;
         $('#contactusform input[type=text]').each(function (index) {
